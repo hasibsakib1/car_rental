@@ -1,16 +1,11 @@
 # car_rental
 
-A new Flutter project.
+Flutter assessment for Nyntax.
 
-## Getting Started
+# Bonus Question
 
-This project is a starting point for a Flutter application.
+Let's say you have a Tesla in your system that charges $10 per hour and $50 per day. What occurs now if the car is rented for six hours? Is the customer willing to pay more than the daily rate for one-fourth of the period? Regarding the hourly, daily, and weekly rate systems, how do you handle this issue? Describe your solution in the readme file of your project.
 
-A few resources to get you started if this is your first Flutter project:
+# Answer
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+After calculating the hour rate for 6(or any number) hours, I need to compare the amount with the daily rate. If the daily rate is lower than total hourly rate, i will choose the daily rate as my final amount. Same goes for daily and weekly rates too.

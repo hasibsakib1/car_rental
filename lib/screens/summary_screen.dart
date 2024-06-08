@@ -151,7 +151,7 @@ class _SummaryScreenState extends ConsumerState<SummaryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(entry.key, style: const TextStyle(fontSize: 16)),
-                              Text(entry.value.toString(), style: const TextStyle(fontSize: 16)),
+                              Text('\$${entry.value}', style: const TextStyle(fontSize: 16)),
                             ],
                           )).toList(),
                         ],
@@ -161,7 +161,7 @@ class _SummaryScreenState extends ConsumerState<SummaryScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Total Charge', style: TextStyle(fontSize: 16)),
-                          Text('${ref.read(totalChargesProvider)}', style: const TextStyle(fontSize: 16)),
+                          Text('\$${ref.read(totalChargesProvider)}', style: const TextStyle(fontSize: 16)),
                         ],
                       ),
                     ],
