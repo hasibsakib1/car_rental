@@ -1,12 +1,14 @@
 import 'package:car_rental/model/car_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/web.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final carsListControllerProvider = StateNotifierProvider<CarsListController, List<CarModel>>((ref) => CarsListController());
+part 'cars_list_controller.g.dart';
 
-class CarsListController extends StateNotifier<List<CarModel>> {
-  CarsListController() : super([]);
+@riverpod
+class CarsListController extends _$CarsListController {
+  
+  List<CarModel> build() => [];
 
   void fetchCarsList() async {
     final dio = Dio();

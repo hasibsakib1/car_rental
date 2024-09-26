@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'charges_controller.dart';
+part of 'cars_list_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$chargesControllerHash() => r'60f7e2321746bb6f288ef9fac13578fc9d1b5f20';
+String _$carsListControllerHash() =>
+    r'd02a1b6a0843942f14f9519b9bdc026fa2362fbf';
 
-/// See also [ChargesController].
-@ProviderFor(ChargesController)
-final chargesControllerProvider = AutoDisposeNotifierProvider<ChargesController,
-    Map<String, double>>.internal(
-  ChargesController.new,
-  name: r'chargesControllerProvider',
+/// See also [CarsListController].
+@ProviderFor(CarsListController)
+final carsListControllerProvider =
+    AutoDisposeNotifierProvider<CarsListController, List<CarModel>>.internal(
+  CarsListController.new,
+  name: r'carsListControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$chargesControllerHash,
+      : _$carsListControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$ChargesController = AutoDisposeNotifier<Map<String, double>>;
+typedef _$CarsListController = AutoDisposeNotifier<List<CarModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
