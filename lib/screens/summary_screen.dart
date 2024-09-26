@@ -19,13 +19,27 @@ class SummaryScreen extends ConsumerStatefulWidget {
 
 class _SummaryScreenState extends ConsumerState<SummaryScreen> {
 
+  Map<String, double> fareBreakdown= {};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future (() {
+      ref.read(chargesControllerProvider.notifier).getFareBreakdown(widget.selectedCar);
+    },);
+  }
+
+
   
   @override
   Widget build(BuildContext context) {
     final reservationDetails = ref.watch(reservationDetailsProvider);
     final customerInformation = ref.watch(customerInformationProvider);
-    final fareBreakdown = ref.watch(chargesControllerProvider);
+    fareBreakdown = ref.watch(chargesControllerProvider);
 
+    
+print(fareBreakdown);
 
     return Scaffold(
       appBar: const CommonAppBar(),
@@ -146,14 +160,16 @@ class _SummaryScreenState extends ConsumerState<SummaryScreen> {
                       ListView(
                         shrinkWrap: true,
                         children: [
-                          ...fareBreakdown.entries.map((entry) =>
-                          entry.value==0? const SizedBox.shrink() : Row(
+                          ...fareBreakdown.entries.map((entry) {
+                            // print(fareBreakdown);
+                            return entry.value==0? SizedBox.shrink() : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(entry.key, style: const TextStyle(fontSize: 16)),
                               Text('\$${entry.value}', style: const TextStyle(fontSize: 16)),
                             ],
-                          )).toList(),
+                          );
+                          }).toList(),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -168,6 +184,11 @@ class _SummaryScreenState extends ConsumerState<SummaryScreen> {
                   ),
                 )
               ),
+              // ElevatedButton(onPressed: (){
+              //   setState(() {
+              //     fareBreakdown = ref.watch(chargesControllerProvider);
+              //   });
+              // }, child: Text("Refresh"))
             ],
           ),
         ),

@@ -1,34 +1,40 @@
 import 'package:car_rental/model/car_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'provider_controller.dart';
 
-final chargesControllerProvider = StateNotifierProvider<ChargesController, Map<String, double>>((ref) {
-  return ChargesController();
-});
+part 'charges_controller.g.dart';
 
-class ChargesController extends StateNotifier<Map<String, double>> {
-  ChargesController() : super({
-          'Weeks': 0,
-          'Days': 0,
-          'Hours': 0,
-        });
 
-  void getFareBreakdown(CarModel car, WidgetRef ref) {
-    final baseFare = getBaseFare(car, ref);
-    final additionalCharges = getAdditionalCharges(ref);
-    final rentalTax = getRentalTax(ref);
-    final discount = getDiscount(ref);
+
+@riverpod
+class ChargesController extends _$ChargesController{  
+  @override
+  Map<String, double> build(){
+    return {
+      'Weeks': 0,
+      'Days': 0,
+      'Hours': 0,
+    };
+  }
+
+  void getFareBreakdown(CarModel car) {
+    final baseFare = getBaseFare(car);
+    final additionalCharges = getAdditionalCharges();
+    final rentalTax = getRentalTax();
+    final discount = getDiscount();
 
     final fareBreakdown = {...baseFare, ...additionalCharges, ...rentalTax, ...discount};
+    print(fareBreakdown);
 
     state = fareBreakdown;
+    print("..........................................$state");
 
   }
 
-  Map<String, double> getBaseFare(CarModel car, WidgetRef ref) {
-    final duration = getDuration(ref);
+  Map<String, double> getBaseFare(CarModel car) {
+    final duration = getDuration();
 
     final weeks = duration['weeks'] ?? 0;
     final days = duration['days'] ?? 0;
@@ -48,13 +54,13 @@ class ChargesController extends StateNotifier<Map<String, double>> {
       'Hours': hourFare.toDouble(),
     };
 
-    print(baseFareBreakdown);
+    // print(baseFareBreakdown);
 
 
     return baseFareBreakdown;
   }
 
-  Map<String, int> getDuration(WidgetRef ref) {
+  Map<String, int> getDuration() {
     final reservationDetails = ref.watch(reservationDetailsProvider);
 
     DateFormat format = DateFormat('h:mm a, d MMMM yyyy');
@@ -74,7 +80,7 @@ class ChargesController extends StateNotifier<Map<String, double>> {
     return duration;
   }
 
-  Map<String, double> getAdditionalCharges(WidgetRef ref) {
+  Map<String, double> getAdditionalCharges() {
     final charges = ref.watch(additionalChargesProvider);
 
     final collisionDamageWaiver = charges[0]['Collision Damage Waiver']!['isChecked'] ? 9.00 : 0.00;
@@ -90,12 +96,13 @@ class ChargesController extends StateNotifier<Map<String, double>> {
     return additionalCharges;
   }
 
-  Map<String, double> getRentalTax(WidgetRef ref) {
+  Map<String, double> getRentalTax() {
     final charges = ref.watch(additionalChargesProvider);
 
     if (charges[2]['Rental Tax']!['isChecked']) {
       final totalBaseFare = ref.read(totalChargesProvider);
       final rentalTax = double.parse((totalBaseFare * 0.115).toStringAsFixed(2));
+      print("rentalTax................................$rentalTax");
       ref.read(totalChargesProvider.notifier).state = totalBaseFare + rentalTax;
 
       return {'Rental Tax': rentalTax};
@@ -104,8 +111,12 @@ class ChargesController extends StateNotifier<Map<String, double>> {
     return {};
   }
 
-  Map<String, double> getDiscount(WidgetRef ref) {
+  Map<String, double> getDiscount() {
     final reservationDetails = ref.watch(reservationDetailsProvider);
+
+    if (reservationDetails['discount'].isEmpty) { 
+      return {};
+    }
 
     var discount = reservationDetails['discount'] ?? 0.0;
     discount = double.parse(discount);

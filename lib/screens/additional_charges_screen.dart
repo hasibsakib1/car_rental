@@ -6,7 +6,6 @@ import 'package:car_rental/utils/ui_component/title_with_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controller/charges_controller.dart';
 import '../controller/provider_controller.dart';
 import 'summary_screen.dart';
 
@@ -114,7 +113,7 @@ class _AdditionalChargesScreenState extends ConsumerState<AdditionalChargesScree
   void nextButtonAction(BuildContext context) {
     ref.read(totalChargesProvider.notifier).state = 0.0;
     ref.read(additionalChargesProvider.notifier).state = charges;
-    ref.read(chargesControllerProvider.notifier).getFareBreakdown(widget.selectedCar, ref);
+    // ref.read(chargesControllerProvider.notifier).getFareBreakdown(widget.selectedCar);
     Navigator.push(context, MaterialPageRoute(builder:  (context) =>  SummaryScreen(selectedCar: widget.selectedCar)));
   }
 }
